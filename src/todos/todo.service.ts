@@ -16,4 +16,8 @@ export class TodoService {
     return newTodo;
   }
 
+  getAllUserTodos(userId: number): Todo[] {
+    return this.todos.get(userId) || [];
+  }
+
 }
