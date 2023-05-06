@@ -5,9 +5,14 @@ import { Todo } from 'src/todo.interface';
 export class TodoService {
   private todos: Map<number, Todo[]> = new Map();
 
-  createTodo(userId: number, todo: Omit<Todo, 'id'>): Todo {
-    const id = this.todos.get(userId)?.length || 1;
-    const newTodo: Todo = {...todo, id};
+  createTodo(userId: number, body: any): Todo {
+    const id = this.todos.get(userId)?.length + 1 || 1;
+    const newTodo: Todo = {
+      id: id,
+      userId: userId,
+      title: body.title,
+      completed: false
+    };
     if(this.todos.has(userId)) {
       this.todos.get(userId).push(newTodo);
     } else {
