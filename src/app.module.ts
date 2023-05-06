@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
-import { TodosModule } from './todos/todo.module';
+import { TodoModule } from './todos/todo.module';
 
 @Module({
-  imports: [TodosModule],
+  imports: [TodoModule],
   controllers: [],
   providers: [],
 })
