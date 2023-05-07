@@ -25,4 +25,8 @@ export class TodoService {
     return this.todos.get(userId) || [];
   }
 
+  getTodoById(userId: number, id: number): Todo {
+    return this.todos.get(userId)?.find(todo => todo.id === id);
+  }
+
 }
