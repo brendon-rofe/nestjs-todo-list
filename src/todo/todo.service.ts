@@ -11,4 +11,11 @@ export class TodoService {
     return todos ? JSON.parse(todos) : [];
   };
 
+  async createTodo(todo: any): Promise<any> {
+    const todos = await this.getAllTodos();
+    todos.push(todo);
+    await this.redisService.setAsync('todos', JSON.stringify(todos));
+    return(todo);
+  };
+
 }
