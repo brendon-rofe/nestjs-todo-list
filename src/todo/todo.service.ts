@@ -5,8 +5,6 @@ import { Todo } from 'src/todo.model';
 
 @Injectable()
 export class TodoService {
-  public nextTodoId: number = 1;
-
   constructor(private readonly redisService: RedisService) {}
 
   async getAllTodos(): Promise<Todo[]> {
@@ -16,9 +14,11 @@ export class TodoService {
 
   async createTodo(todo: CreateTodoDto): Promise<Todo> {
     const todos = await this.getAllTodos();
-    const newTodo = {
-      id: this.nextTodoId,
-      ...todo
+    const newTodo: Todo = {
+      id: (await this.getAllTodos()).length + 1,
+      title: todo.title,
+      description: todo.description,
+      completed: false
     };
     todos.push(newTodo);
     await this.redisService.setAsync('todos', JSON.stringify(todos));
