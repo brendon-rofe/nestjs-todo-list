@@ -30,8 +30,28 @@ export class TodoService {
     const todo = todos.find(t => t.id === id);
     if(!todo) {
       throw new BadRequestException(`Todo with id ${id} not found`);
-    }
+    };
     return todo;
-  }
+  };
+
+  async markTodoComplete(id: number): Promise<Todo> {
+    const todos = await this.getAllTodos();
+    const todo = todos.find(t => t.id === id);
+    const indexOfTodo = todos.indexOf(todo);
+    if(!todo) {
+      throw new BadRequestException(`Todo with id ${id} not found`);
+    } else if(todo.completed) {
+      throw Error('Todo is already complete');
+    };
+    const updatedTodo: Todo = {
+      id: todo.id,
+      title: todo.title,
+      description: todo.description,
+      completed: true
+    };
+    todo[indexOfTodo] = updatedTodo;
+    await this.redisService.setAsync('todos', JSON.stringify(todos));
+    return updatedTodo;
+  };
 
 }
