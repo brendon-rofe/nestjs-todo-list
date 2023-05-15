@@ -14,7 +14,7 @@ export class TodoController {
   };
 
   @Get(':id')
-  async getTodoById(@Param('id') id: string): Promise<any> {
+  async getTodoById(@Param('id') id: string): Promise<Todo> {
     return await this.todoService.getTodoById(Number(id));
   }
 

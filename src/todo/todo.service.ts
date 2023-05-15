@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { RedisService } from 'src/redis/redis.service';
 import { CreateTodoDto } from './createTodo.dto';
 import { Todo } from 'src/todo.model';
@@ -25,11 +25,11 @@ export class TodoService {
     return(newTodo);
   };
 
-  async getTodoById(id: number): Promise<any> {
+  async getTodoById(id: number): Promise<Todo> {
     const todos = await this.getAllTodos();
     const todo = todos.find(t => t.id === id);
     if(!todo) {
-      return { message: 'No todo with that ID found' };
+      throw new BadRequestException(`Todo with id ${id} not found`);
     }
     return todo;
   }
