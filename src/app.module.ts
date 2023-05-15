@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 import { TodoModule } from './todo/todo.module';
-import { RedisService } from './redis/redis.service';
+import { RedisModule } from './redis/redis.module';
 
 @Module({
-  imports: [TodoModule],
+  imports: [TodoModule, RedisModule],
   controllers: [],
-  providers: [RedisService],
+  providers: [],
 })
 export class AppModule {}
