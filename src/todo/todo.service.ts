@@ -25,7 +25,7 @@ export class TodoService {
     return(newTodo);
   };
 
-  async getTodoById(id: number): Promise<Todo | any> {
+  async getTodoById(id: number): Promise<any> {
     const todos = await this.getAllTodos();
     const todo = todos.find(t => t.id === id);
     if(!todo) {
