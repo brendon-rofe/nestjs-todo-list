@@ -29,8 +29,13 @@ export class TodoController {
   };
 
   @Put('/update-title/:id')
-  async updateTodoTitle(@Param('id') id: string, @Body() updatedTitle: any): Promise<any> {
-    return await this.todoService.updateTodoTitle(Number(id), updatedTitle);
+  async updateTodoTitle(@Param('id') id: string, @Body() update: any): Promise<any> {
+    return await this.todoService.updateTodoTitle(Number(id), update);
+  };
+
+  @Put('/update-description/:id')
+  async updateTodoDescription(@Param('id') id: string, @Body() update: any): Promise<any> {
+    return await this.todoService.updateTodoDescription(Number(id), update);
   };
 
   @Delete(':id')
