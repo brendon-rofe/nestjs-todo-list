@@ -7,15 +7,15 @@ import { Todo } from 'src/todo.model';
 export class TodoService {
   constructor(private readonly redisService: RedisService) {}
 
-  async getAllTodos(): Promise<Todo[]> {
+  async getAll(): Promise<Todo[]> {
     const todos = await this.redisService.getAsync('todos');
     return todos ? JSON.parse(todos) : [];
   };
 
-  async createTodo(todo: CreateTodoDto): Promise<Todo> {
-    const todos = await this.getAllTodos();
+  async create(todo: CreateTodoDto): Promise<Todo> {
+    const todos = await this.getAll();
     const newTodo: Todo = {
-      id: (await this.getAllTodos()).length + 1,
+      id: (await this.getAll()).length + 1,
       title: todo.title,
       description: todo.description,
       completed: false
@@ -25,8 +25,8 @@ export class TodoService {
     return(newTodo);
   };
 
-  async getTodoById(id: number): Promise<Todo> {
-    const todos = await this.getAllTodos();
+  async getById(id: number): Promise<Todo> {
+    const todos = await this.getAll();
     const todo = todos.find(t => t.id === id);
     if(!todo) {
       throw new BadRequestException(`Todo with id ${id} not found`);
@@ -34,8 +34,8 @@ export class TodoService {
     return todo;
   };
 
-  async markTodoComplete(id: number): Promise<any> {
-    const todos = await this.getAllTodos();
+  async markComplete(id: number): Promise<any> {
+    const todos = await this.getAll();
     const todo = todos.find(t => t.id === id);
     const indexOfTodo = todos.indexOf(todo);
     if(!todo) {
@@ -54,8 +54,8 @@ export class TodoService {
     return { message: `Todo ${id} completed` };
   };
 
-  async updateTodoTitle(id: number, update: any): Promise<any> {
-    const todos = await this.getAllTodos();
+  async updateTitle(id: number, update: any): Promise<any> {
+    const todos = await this.getAll();
     const todo = todos.find(t => t.id === id);
     const indexOfTodo = todos.indexOf(todo);
     if(!todo) {
@@ -72,8 +72,8 @@ export class TodoService {
     return await { message: `Todo ${id}'s new title: ${update.newTitle}` };
   };
 
-  async updateTodoDescription(id: number, update: any): Promise<any> {
-    const todos = await this.getAllTodos();
+  async updateDescription(id: number, update: any): Promise<any> {
+    const todos = await this.getAll();
     const todo = todos.find(t => t.id === id);
     const indexOfTodo = todos.indexOf(todo);
     if(!todo) {
@@ -88,16 +88,16 @@ export class TodoService {
     todos[indexOfTodo] = updatedTodo;
     await this.redisService.setAsync('todos', JSON.stringify(todos));
     return await { message: `Todo ${id}'s new description: ${update.newDescription}` };
-  }
+  };
 
-  async deleteTodoById(id: number): Promise<any> {
-    const todos = await this.getAllTodos();
+  async deleteById(id: number): Promise<any> {
+    const todos = await this.getAll();
     const newTodos = todos.filter(t => t.id !== id);
     await this.redisService.setAsync('todos', JSON.stringify(newTodos));
     return { message: `Todo with ID: ${id} deleted` };
   };
 
-  async deleteAllTodos(): Promise<any> {
+  async deleteAll(): Promise<any> {
     const todos = []
     await this.redisService.setAsync('todos', JSON.stringify(todos));
     return { message: 'All todos removed' };

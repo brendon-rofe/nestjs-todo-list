@@ -10,42 +10,42 @@ export class TodoController {
 
   @Get()
   async getAllTodos(): Promise<Todo[]> {
-    return await this.todoService.getAllTodos();
+    return await this.todoService.getAll();
   };
 
   @Get(':id')
   async getTodoById(@Param('id') id: string): Promise<Todo> {
-    return await this.todoService.getTodoById(Number(id));
+    return await this.todoService.getById(Number(id));
   }
 
   @Post()
   async createTodo(@Body() todo: CreateTodoDto): Promise<Todo> {
-    return await this.todoService.createTodo(todo);
+    return await this.todoService.create(todo);
   };
 
   @Put('/complete/:id')
   async markTodoComplete(@Param('id') id: string): Promise<any> {
-    return await this.todoService.markTodoComplete(Number(id));
+    return await this.todoService.markComplete(Number(id));
   };
 
   @Put('/update-title/:id')
   async updateTodoTitle(@Param('id') id: string, @Body() update: any): Promise<any> {
-    return await this.todoService.updateTodoTitle(Number(id), update);
+    return await this.todoService.updateTitle(Number(id), update);
   };
 
   @Put('/update-description/:id')
   async updateTodoDescription(@Param('id') id: string, @Body() update: any): Promise<any> {
-    return await this.todoService.updateTodoDescription(Number(id), update);
+    return await this.todoService.updateDescription(Number(id), update);
   };
 
   @Delete(':id')
   async deleteTodoById(@Param('id') id: string): Promise<any> {
-    return await this.todoService.deleteTodoById(Number(id));
+    return await this.todoService.deleteById(Number(id));
   };
 
   @Delete()
   async deleteAllTodos(): Promise<any> {
-    return await this.todoService.deleteAllTodos();
+    return await this.todoService.deleteAll();
   };
 
 }
