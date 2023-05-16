@@ -50,7 +50,7 @@ export class TodoService {
       completed: true
     };
     todos[indexOfTodo] = updatedTodo;
-    await this.redisService.setAsync('todos', JSON.stringify(todos));
+    await this.redisService.setAsync('todos:${userId}', JSON.stringify(todos));
     return { message: `Todo ${id} completed` };
   };
 
@@ -68,7 +68,7 @@ export class TodoService {
       completed: todo.completed
     };
     todos[indexOfTodo] = updatedTodo;
-    await this.redisService.setAsync('todos', JSON.stringify(todos));
+    await this.redisService.setAsync('todos:${userId}', JSON.stringify(todos));
     return await { message: `Todo ${id}'s new title: ${update.newTitle}` };
   };
 
@@ -86,14 +86,14 @@ export class TodoService {
       completed: todo.completed
     };
     todos[indexOfTodo] = updatedTodo;
-    await this.redisService.setAsync('todos', JSON.stringify(todos));
+    await this.redisService.setAsync('todos:${userId}', JSON.stringify(todos));
     return await { message: `Todo ${id}'s new description: ${update.newDescription}` };
   };
 
   async deleteById(userId: string, id: number): Promise<any> {
     const todos = await this.getAllUserTodos(userId);
     const newTodos = todos.filter(t => t.id !== id);
-    await this.redisService.setAsync('todos', JSON.stringify(newTodos));
+    await this.redisService.setAsync('todos:${userId}', JSON.stringify(newTodos));
     return { message: `Todo with ID: ${id} deleted` };
   };
 
