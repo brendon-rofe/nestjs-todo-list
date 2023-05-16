@@ -7,11 +7,6 @@ import { Todo } from 'src/todo.model';
 export class TodoService {
   constructor(private readonly redisService: RedisService) {}
 
-  async getAllUserTodos(userId: number): Promise<Todo[]> {
-    const todos = await this.redisService.getAsync('todos:${userId}');
-    return todos ? JSON.parse(todos) : [];
-  };
-
   async create(userId: number, todo: CreateTodoDto): Promise<Todo> {
     const todos = await this.getAllUserTodos(userId);
     const newTodo: Todo = {
@@ -23,6 +18,11 @@ export class TodoService {
     todos.push(newTodo);
     await this.redisService.setAsync('todos:${userId}', JSON.stringify(todos));
     return(newTodo);
+  };
+
+  async getAllUserTodos(userId: number): Promise<Todo[]> {
+    const todos = await this.redisService.getAsync('todos:${userId}');
+    return todos ? JSON.parse(todos) : [];
   };
 
   async getById(userId: number, id: number): Promise<Todo> {

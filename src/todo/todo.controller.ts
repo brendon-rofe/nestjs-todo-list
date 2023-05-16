@@ -8,6 +8,11 @@ export class TodoController {
 
   constructor(private readonly todoService: TodoService) {}
 
+  @Post(':userId')
+  async createTodo(@Param('userId') userId: string ,@Body() todo: CreateTodoDto): Promise<Todo> {
+    return await this.todoService.create(Number(userId), todo);
+  };
+
   @Get(':userId')
   async getAllUserTodos(@Param('userId') userId: string): Promise<Todo[]> {
     return await this.todoService.getAllUserTodos(Number(userId));
@@ -16,11 +21,6 @@ export class TodoController {
   @Get(':userId/:id')
   async getTodoById(@Param('userId') userId: string, @Param('id') id: string): Promise<Todo> {
     return await this.todoService.getById(Number(userId), Number(id));
-  }
-
-  @Post(':userId')
-  async createTodo(@Param('userId') userId: string ,@Body() todo: CreateTodoDto): Promise<Todo> {
-    return await this.todoService.create(Number(userId), todo);
   };
 
   @Put('/complete/:userId/:id')
