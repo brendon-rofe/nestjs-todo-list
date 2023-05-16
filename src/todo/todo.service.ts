@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { RedisService } from 'src/redis/redis.service';
 import { CreateTodoDto } from './createTodo.dto';
 import { Todo } from 'src/todo.model';
