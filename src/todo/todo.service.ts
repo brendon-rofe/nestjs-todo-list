@@ -34,7 +34,7 @@ export class TodoService {
     return todo;
   };
 
-  async markTodoComplete(id: number): Promise<Todo> {
+  async markTodoComplete(id: number): Promise<any> {
     const todos = await this.getAllTodos();
     const todo = todos.find(t => t.id === id);
     const indexOfTodo = todos.indexOf(todo);
@@ -51,7 +51,7 @@ export class TodoService {
     };
     todo[indexOfTodo] = updatedTodo;
     await this.redisService.setAsync('todos', JSON.stringify(todos));
-    return updatedTodo;
+    return { message: `Todo ${id} completed` };
   };
 
   async deleteTodoById(id: number): Promise<any> {

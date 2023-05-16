@@ -24,7 +24,7 @@ export class TodoController {
   };
 
   @Put(':id')
-  async markTodoComplete(@Param('id') id: string) {
+  async markTodoComplete(@Param('id') id: string): Promise<any> {
     return await this.todoService.markTodoComplete(Number(id));
   };
 
