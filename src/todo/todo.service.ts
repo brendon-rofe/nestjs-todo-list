@@ -54,6 +54,24 @@ export class TodoService {
     return { message: `Todo ${id} completed` };
   };
 
+  async updateTodoTitle(id: number, updatedTitle: any): Promise<any> {
+    const todos = await this.getAllTodos();
+    const todo = todos.find(t => t.id === id);
+    const indexOfTodo = todos.indexOf(todo);
+    if(!todo) {
+      return { Error: `Todo with ID: ${id} not found` };
+    };
+    const updatedTodo: Todo = {
+      id: todo.id,
+      title: updatedTitle.newTitle,
+      description: todo.description,
+      completed: todo.completed
+    };
+    todos[indexOfTodo] = updatedTodo;
+    await this.redisService.setAsync('todos', JSON.stringify(todos));
+    return await { message: `Todo ${id}'s new title: ${updatedTitle.newTitle}` };
+  };
+
   async deleteTodoById(id: number): Promise<any> {
     const todos = await this.getAllTodos();
     const newTodos = todos.filter(t => t.id !== id);
