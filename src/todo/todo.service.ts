@@ -15,7 +15,7 @@ export class TodoService {
   async create(todo: CreateTodoDto): Promise<Todo> {
     const todos = await this.getAll();
     const newTodo: Todo = {
-      id: (await this.getAll()).length + 1,
+      id: todos.length + 1,
       title: todo.title,
       description: todo.description,
       completed: false
