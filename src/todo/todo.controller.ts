@@ -28,6 +28,11 @@ export class TodoController {
     return await this.todoService.markTodoComplete(Number(id));
   };
 
+  @Delete(':id')
+  async deleteTodoById(@Param('id') id: string): Promise<any> {
+    return await this.todoService.deleteTodoById(Number(id));
+  };
+
   @Delete()
   async deleteAllTodos(): Promise<any> {
     return await this.todoService.deleteAllTodos();

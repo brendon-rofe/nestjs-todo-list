@@ -54,10 +54,17 @@ export class TodoService {
     return updatedTodo;
   };
 
+  async deleteTodoById(id: number): Promise<any> {
+    const todos = await this.getAllTodos();
+    const newTodos = todos.filter(t => t.id !== id);
+    await this.redisService.setAsync('todos', JSON.stringify(newTodos));
+    return { message: `Todo with ID: ${id} deleted` };
+  };
+
   async deleteAllTodos(): Promise<any> {
     const todos = []
     await this.redisService.setAsync('todos', JSON.stringify(todos));
     return { message: 'All todos removed' };
-  }
+  };
 
 }
