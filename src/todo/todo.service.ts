@@ -49,7 +49,7 @@ export class TodoService {
       description: todo.description,
       completed: true
     };
-    todo[indexOfTodo] = updatedTodo;
+    todos[indexOfTodo] = updatedTodo;
     await this.redisService.setAsync('todos', JSON.stringify(todos));
     return { message: `Todo ${id} completed` };
   };
