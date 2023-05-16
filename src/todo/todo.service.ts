@@ -97,9 +97,9 @@ export class TodoService {
     return { message: `Todo with ID: ${id} deleted` };
   };
 
-  async deleteAll(): Promise<any> {
+  async deleteAll(userId: string): Promise<any> {
     const todos = []
-    await this.redisService.setAsync('todos', JSON.stringify(todos));
+    await this.redisService.setAsync('todos:${userId}', JSON.stringify(todos));
     return { message: 'All todos removed' };
   };
 

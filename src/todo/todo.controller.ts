@@ -50,9 +50,9 @@ export class TodoController {
     return await this.todoService.deleteById(userId, Number(id));
   };
 
-  @Delete()
-  async deleteAllTodos(): Promise<any> {
-    return await this.todoService.deleteAll();
+  @Delete(':userId')
+  async deleteAllTodos(@Param('userId') userId: string): Promise<any> {
+    return await this.todoService.deleteAll(userId);
   };
 
 }
