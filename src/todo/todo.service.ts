@@ -25,11 +25,11 @@ export class TodoService {
     return todos ? JSON.parse(todos) : [];
   };
 
-  async getById(userId: string, id: number): Promise<Todo> {
+  async getById(userId: string, id: number): Promise<any> {
     const todos = await this.getAllUserTodos(userId);
     const todo = todos.find(t => t.id === id);
     if(!todo) {
-      throw new BadRequestException(`Todo with id ${id} not found`);
+      return { Error: `No todo with ID:${id} found` };
     };
     return todo;
   };
@@ -39,9 +39,9 @@ export class TodoService {
     const todo = todos.find(t => t.id === id);
     const indexOfTodo = todos.indexOf(todo);
     if(!todo) {
-      throw new BadRequestException(`Todo with id ${id} not found`);
+      return { Error: `No todo with ID:${id} found` };
     } else if(todo.completed) {
-      throw Error('Todo is already complete');
+      return { Error: 'Todo is already complete' };
     };
     const updatedTodo: Todo = {
       id: todo.id,
