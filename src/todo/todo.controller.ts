@@ -18,9 +18,9 @@ export class TodoController {
     return await this.todoService.getById(Number(id));
   }
 
-  @Post()
-  async createTodo(@Body() todo: CreateTodoDto): Promise<Todo> {
-    return await this.todoService.create(todo);
+  @Post(':userId')
+  async createTodo(@Param('userId') userId: number ,@Body() todo: CreateTodoDto): Promise<Todo> {
+    return await this.todoService.create(userId, todo);
   };
 
   @Put('/complete/:id')

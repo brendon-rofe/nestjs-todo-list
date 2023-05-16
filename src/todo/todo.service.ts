@@ -12,7 +12,7 @@ export class TodoService {
     return todos ? JSON.parse(todos) : [];
   };
 
-  async create(todo: CreateTodoDto): Promise<Todo> {
+  async create(userId: number, todo: CreateTodoDto): Promise<Todo> {
     const todos = await this.getAll();
     const newTodo: Todo = {
       id: todos.length + 1,
@@ -21,7 +21,7 @@ export class TodoService {
       completed: false
     };
     todos.push(newTodo);
-    await this.redisService.setAsync('todos', JSON.stringify(todos));
+    await this.redisService.setAsync('todos:${userId}', JSON.stringify(todos));
     return(newTodo);
   };
 
